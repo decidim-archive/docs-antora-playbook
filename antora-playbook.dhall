@@ -11,12 +11,11 @@ let Branch = < Master | Other : Text >
 let site =
       { title = "Decidim Docs"
       , url =
-          Optional/fold
-            Text
+          merge
+            { Some = λ(_ : Text) → "http://localhost:5500/build/site/"
+            , None = "https://docs.decidim.org"
+            }
             reposDir
-            Text
-            (λ(_ : Text) → "http://localhost:5500/build/site/")
-            "https://docs.decidim.org"
       , start_page = Some "decidim:ROOT:index.adoc"
       , keys = None (Map Text Text)
       }
@@ -43,18 +42,16 @@ let sources
 
 let ui =
       { bundle =
-          { snapshot = Some True
-          , start_path = None Text
-          , url =
-              Optional/fold
-                Text
-                reposDir
-                Text
-                (   λ(dir : Text)
-                  → "${dir}/docs-ui.git/build/ui-bundle.zip"
-                )
-                "https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable"
-          }
+        { snapshot = Some True
+        , start_path = None Text
+        , url =
+            merge
+              { Some = λ(dir : Text) → "${dir}/docs-ui.git/build/ui-bundle.zip"
+              , None =
+                  "https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable"
+              }
+              reposDir
+        }
       , default_layout = None Text
       , output_dir = None Text
       , supplemental_files = Some "./supplemental_ui"
@@ -62,12 +59,11 @@ let ui =
 
 let asciidoc =
       Some
-        { attributes =
-            Some
-              [ { mapKey = "idseparator", mapValue = "-" }
-              , { mapKey = "xrefstyle", mapValue = "short" }
-              , { mapKey = "idprefix", mapValue = "" }
-              ]
+        { attributes = Some
+          [ { mapKey = "idseparator", mapValue = "-" }
+          , { mapKey = "xrefstyle", mapValue = "short" }
+          , { mapKey = "idprefix", mapValue = "" }
+          ]
         , extensions = None (List Text)
         }
 
@@ -102,23 +98,19 @@ let content =
       let mkUrl
           : Text → Text
           =   λ(name : Text)
-            → Optional/fold
-                Text
+            → merge
+                { Some = λ(dir : Text) → "${dir}/${name}.git"
+                , None = "https://github.com/decidim/${name}.git"
+                }
                 reposDir
-                Text
-                (λ(dir : Text) → "${dir}/${name}.git")
-                "https://github.com/decidim/${name}.git"
 
       let branch2text =
               λ(branch : Branch)
             → merge
                 { Master =
-                    Optional/fold
-                      Text
+                    merge
+                      { Some = λ(_ : Text) → "HEAD", None = "master" }
                       reposDir
-                      Text
-                      (λ(_ : Text) → "HEAD")
-                      "master"
                 , Other = λ(t : Text) → t
                 }
                 branch
@@ -131,14 +123,13 @@ let content =
               # [ { url = mkUrl sourceName
                   , start_path = Some language.name
                   , branches =
-                      Optional/fold
-                        (List Branch)
+                      merge
+                        { Some =
+                              λ(l : List Branch)
+                            → Some (Prelude.List.map Branch Text branch2text l)
+                        , None = None (List Text)
+                        }
                         language.branches
-                        (Optional (List Text))
-                        (   λ(l : List Branch)
-                          → Some (Prelude.List.map Branch Text branch2text l)
-                        )
-                        (None (List Text))
                   , tags = language.tags
                   }
                 ]
@@ -160,11 +151,4 @@ let content =
                   (Prelude.List.map SourceIn (List SourceOut) func sources)
             }
 
-in    { site = site
-      , content = content
-      , ui = ui
-      , asciidoc = asciidoc
-      , runtime = runtime
-      , output = output
-      }
-    : Playbook
+in  { site, content, ui, asciidoc, runtime, output } : Playbook
