@@ -9,16 +9,18 @@ let reposDir = Some env:REPOS_DIR as Text ? None Text
 let Branch = < Master | Other : Text >
 
 let site =
-      { title = "Decidim Docs"
-      , url =
-          merge
-            { Some = λ(_ : Text) → "http://localhost:5500/build/site/"
-            , None = "https://docs.decidim.org"
-            }
-            reposDir
-      , start_page = Some "decidim:ROOT:index.adoc"
-      , keys = None (Map Text Text)
-      }
+        { title = "Decidim Docs"
+        , url =
+            merge
+              { Some = λ(_ : Text) → "http://localhost:5500/build/site/"
+              , None = "https://docs.decidim.org"
+              }
+              reposDir
+        , start_page = Some "decidim:ROOT:index.adoc"
+        , keys = None (Map Text Text)
+        , robots = Some Playbook.Robots.allow
+        }
+      : Playbook.Site
 
 let branchesDefault = None (List Text)
 
@@ -41,40 +43,46 @@ let sources
       ]
 
 let ui =
-      { bundle =
-        { snapshot = Some True
-        , start_path = None Text
-        , url =
-            merge
-              { Some = λ(dir : Text) → "${dir}/docs-ui.git/build/ui-bundle.zip"
-              , None =
-                  "https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable"
-              }
-              reposDir
+        { bundle =
+          { snapshot = Some True
+          , start_path = None Text
+          , url =
+              merge
+                { Some =
+                    λ(dir : Text) → "${dir}/docs-ui.git/build/ui-bundle.zip"
+                , None =
+                    "https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable"
+                }
+                reposDir
+          }
+        , default_layout = None Text
+        , output_dir = None Text
+        , supplemental_files = Some "./supplemental_ui"
         }
-      , default_layout = None Text
-      , output_dir = None Text
-      , supplemental_files = Some "./supplemental_ui"
-      }
+      : Playbook.Ui
 
 let asciidoc =
-      Some
-        { attributes = Some
-          [ { mapKey = "idseparator", mapValue = "-" }
-          , { mapKey = "xrefstyle", mapValue = "short" }
-          , { mapKey = "idprefix", mapValue = "" }
-          ]
-        , extensions = None (List Text)
-        }
+        Some
+          { attributes = Some
+            [ { mapKey = "idseparator", mapValue = "-" }
+            , { mapKey = "xrefstyle", mapValue = "short" }
+            , { mapKey = "idprefix", mapValue = "" }
+            ]
+          , extensions = None (List Text)
+          }
+      : Playbook.Asciidoc
 
 let output =
-      None
-        { clean : Optional Bool
-        , destinations : List { provider : Text }
-        , dir : Optional Text
-        }
+        None
+          { clean : Optional Bool
+          , destinations : List { provider : Text }
+          , dir : Optional Text
+          }
+      : Playbook.Output
 
-let runtime = Some { cache_dir = Some "./.cache/antora", fetch = Some True }
+let runtime =
+        Some { cache_dir = Some "./.cache/antora", fetch = Some True }
+      : Playbook.Runtime
 
 let content =
       let Language =
@@ -144,11 +152,12 @@ let content =
                 (addSource s.name)
                 ([] : List SourceOut)
 
-      in    { branches = branchesDefault }
-          ⫽ { sources =
-                Prelude.List.concat
-                  SourceOut
-                  (Prelude.List.map SourceIn (List SourceOut) func sources)
-            }
+      in      { branches = branchesDefault }
+            ⫽ { sources =
+                  Prelude.List.concat
+                    SourceOut
+                    (Prelude.List.map SourceIn (List SourceOut) func sources)
+              }
+          : Playbook.Content
 
-in  { site, content, ui, asciidoc, runtime, output } : Playbook
+in  { site, content, ui, asciidoc, runtime, output } : Playbook.Playbook
