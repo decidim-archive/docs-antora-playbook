@@ -1,3 +1,4 @@
 .cache/
-/build/
-/antora-playbook*.yml
+/**/build/site/
+/**/*-playbook.yml
+.history
