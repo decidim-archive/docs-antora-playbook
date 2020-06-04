@@ -17,6 +17,17 @@ let sources
           { language = Antora.Language.en
           , source =
             { repository =
+              { prefix = "https://github.com/decidim/", name = "docs-label-translations" }
+            , branch = Antora.Branch.master
+            , start_path = ""
+            }
+          }
+        , alternatives = [] : List Antora.ComponentVersionLanguage
+        }
+      , { main =
+          { language = Antora.Language.en
+          , source =
+            { repository =
               { prefix = "https://github.com/decidim/"
               , name = "docs-publications"
               }
