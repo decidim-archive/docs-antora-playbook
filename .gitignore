@@ -2,3 +2,4 @@
 /**/build/site/
 /**/*-playbook.yml
 .history
+antora-playbook.local.*
