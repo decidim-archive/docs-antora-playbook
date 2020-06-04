@@ -1,0 +1,10 @@
+{
+  "name": "decidim-docs-netlify",
+  "private": true,
+  "dependencies": {
+    "@antora/cli": "~2.3",
+    "antora-site-generator-lunr": "~0.5",
+    "@antora/site-generator-default": "~2.3",
+    "@antora/xref-validator": "git+https://gitlab.com/antora/xref-validator#v1.0.0-alpha.11"
+  }
+}

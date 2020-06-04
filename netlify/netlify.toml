@@ -1,0 +1,75 @@
+[build]
+publish = "public"
+ignore = "false"
+
+[build.environment]
+CI = "true"
+NODE_VERSION = "12"
+# WARNING netlify-build ignores NPM_FLAGS when installing plugins, so use low-level NPM_CONFIG_ flag instead
+#NPM_FLAGS = "--no-optional"
+NPM_CONFIG_OPTIONAL = "false"
+ANTORA_CACHE_DIR = "node_modules/.cache/antora"
+
+# NOTE the --fetch flag is needed on both calls to update both the content and UI bundle (since the xref validator doesn't fetch the UI)
+
+[context.production]
+command = """\
+node_modules/.bin/antora --fetch --generator=@antora/xref-validator ../antora-playbook.remote.en.yml && \
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public ../antora-playbook.remote.en.yml && \
+sed -i 's; 301$;&!;' public/_redirects \
+"""
+
+[context.deploy-preview]
+command = """\
+node_modules/.bin/antora --fetch --generator=@antora/xref-validator ../antora-playbook.remote.en.yml && \
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public --url $DEPLOY_PRIME_URL ../antora-playbook.remote.en.yml && \
+sed -i 's; 301$;&!;' public/_redirects\
+"""
+
+# [[plugins]]
+# package = "netlify-plugin-checklinks"
+
+# [plugins.inputs]
+# entryPoints = ["**/*.html"]
+# recursive = true
+# pretty = true
+# # the leading space in the skipPattern is significant
+# skipPatterns = [" public/index.html"]
+# todoPatterns = []
+# checkExternal = false
+# followSourceMaps = false
+
+[[headers]]
+for = "/_/font/*"
+  [headers.values]
+  Cache-Control = "public,max-age=604800"
+
+# ...or define headers in _headers file to allow use of netlify command (not currently used)
+# /_/font/*
+#  Cache-Control: public,max-age=604800
+
+# NOTE the following redirects get appended to the redirects defined in the _redirects file
+
+# [[redirects]]
+# from = "https://antora-docs.netlify.com/*"
+# to = "https://docs.antora.org/:splat"
+# status = 301
+# force = true
+
+# [[redirects]]
+# from = "/antora/1.0/*"
+# to = "/antora/latest/:splat"
+# status = 301
+# force = true
+
+# [[redirects]]
+# from = "/antora/1.1/*"
+# to = "/antora/latest/:splat"
+# status = 301
+# force = true
+
+# [[redirects]]
+# from = "/antora/latest/*"
+# to = "/antora/2.3/:splat"
+# status = 302
+# force = true
