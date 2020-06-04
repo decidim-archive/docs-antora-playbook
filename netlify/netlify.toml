@@ -14,14 +14,12 @@ ANTORA_CACHE_DIR = "node_modules/.cache/antora"
 
 [context.production]
 command = """\
-node_modules/.bin/antora --fetch --generator=@antora/xref-validator ../antora-playbook.remote.en.yml && \
 DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public ../antora-playbook.remote.en.yml && \
 sed -i 's; 301$;&!;' public/_redirects \
 """
 
 [context.deploy-preview]
 command = """\
-node_modules/.bin/antora --fetch --generator=@antora/xref-validator ../antora-playbook.remote.en.yml && \
 DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public --url $DEPLOY_PRIME_URL ../antora-playbook.remote.en.yml && \
 sed -i 's; 301$;&!;' public/_redirects\
 """
