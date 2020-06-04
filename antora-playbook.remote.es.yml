@@ -1,0 +1,47 @@
+asciidoc:
+  attributes:
+    idprefix: ''
+    idseparator: '-'
+    page-playbook-lang: es
+    xrefstyle: short
+content:
+  sources:
+    - branches:
+        - master
+      start_path: en
+      url: https://github.com/decidim/docs-base
+    - branches:
+        - master
+      start_path: ''
+      url: https://github.com/decidim/docs-label-translations
+    - branches:
+        - master
+      start_path: es
+      url: https://github.com/decidim/docs-publications
+    - branches:
+        - master.NT
+      start_path: es
+      url: https://github.com/decidim/docs-publications
+    - branches:
+        - master
+      start_path: en
+      url: https://github.com/gmarpons/docs-test
+    - branches:
+        - v1.0
+      start_path: en
+      url: https://github.com/gmarpons/docs-test
+output:
+  destinations: []
+  dir: build/site/es
+runtime:
+  cache_dir: "./.cache/antora"
+  fetch: true
+site:
+  start_page: decidim:ROOT:index.adoc
+  title: Decidim Docs
+  url: https://docs.decidim.org/es
+ui:
+  bundle:
+    snapshot: true
+    url: "https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable"
+  supplemental_files: "./supplemental_ui"
