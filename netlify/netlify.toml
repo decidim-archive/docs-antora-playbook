@@ -14,18 +14,26 @@ ANTORA_CACHE_DIR = "node_modules/.cache/antora"
 
 [context.production]
 command = """\
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/ca ../antora-playbook.remote.ca.yml && \
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/en ../antora-playbook.remote.en.yml && \
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/es ../antora-playbook.remote.es.yml && \
-sed -i 's; 301$;&!;' public/_redirects \
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/ca ../antora-playbook.remote.ca.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/ca/\1 /ca/\2;' public/ca/_redirects >> public/_redirects &&\
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/en ../antora-playbook.remote.en.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/en/\1 /en/\2;' public/en/_redirects >> public/_redirects &&\
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/es ../antora-playbook.remote.es.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/es/\1 /es/\2;' public/es/_redirects >> public/_redirects &&\
+echo "cat public/_redirects:" &&\
+cat public/_redirects\
 """
 
 [context.deploy-preview]
 command = """\
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/ca --url $DEPLOY_PRIME_URL ../antora-playbook.remote.ca.yml && \
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/en --url $DEPLOY_PRIME_URL ../antora-playbook.remote.en.yml && \
-DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/es --url $DEPLOY_PRIME_URL ../antora-playbook.remote.es.yml && \
-sed -i 's; 301$;&!;' public/_redirects\
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/ca --url $DEPLOY_PRIME_URL ../antora-playbook.remote.ca.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/ca/\1 /ca/\2;' public/ca/_redirects >> public/_redirects &&\
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/en --url $DEPLOY_PRIME_URL ../antora-playbook.remote.en.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/en/\1 /en/\2;' public/en/_redirects >> public/_redirects &&\
+DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr NODE_PATH="$(npm -g root)" node_modules/.bin/antora --fetch --generator antora-site-generator-lunr --html-url-extension-style=indexify --redirect-facility=netlify --to-dir=public/es --url $DEPLOY_PRIME_URL ../antora-playbook.remote.es.yml &&\
+sed 's;^\/\([^ ]*\) \/\(.*\);/es/\1 /es/\2;' public/es/_redirects >> public/_redirects\
+echo "cat public/_redirects:" &&\
+cat public/_redirects\
 """
 
 # [[plugins]]
