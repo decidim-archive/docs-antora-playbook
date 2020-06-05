@@ -60,17 +60,11 @@ for = "/_/font/*"
 
 # NOTE the following redirects get appended to the redirects defined in the _redirects file
 
-# [[redirects]]
-# from = "https://antora-docs.netlify.com/*"
-# to = "https://docs.antora.org/:splat"
-# status = 301
-# force = true
-
-# [[redirects]]
-# from = "/antora/1.0/*"
-# to = "/antora/latest/:splat"
-# status = 301
-# force = true
+[[redirects]]
+from = "/*"
+to = "/en/:splat"
+status = 301
+force = false
 
 # [[redirects]]
 # from = "/antora/1.1/*"
