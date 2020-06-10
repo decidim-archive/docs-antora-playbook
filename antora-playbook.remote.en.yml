@@ -1,9 +1,13 @@
 asciidoc:
   attributes:
-    idprefix: ''
+    idprefix: "@"
     idseparator: '-'
+    page-copyright-ownership: "Barcelona City Council, Decidim Free Software Association and the authors of the text@"
+    page-license: "Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)@"
+    page-license-alternative: "GNU Free Documentation (GFDL-1.3-or-later)@"
     page-playbook-lang: en
-    xrefstyle: short
+    sectanchors: ''
+    xrefstyle: "short@"
 content:
   sources:
     - branches:
@@ -26,6 +30,10 @@ content:
         - v1.0
       start_path: en
       url: https://github.com/gmarpons/docs-test
+    - branches:
+        - revamp2020
+      start_path: en
+      url: https://github.com/decidim/docs-features
 output:
   destinations: []
   dir: build/site/en
