@@ -36,21 +36,21 @@ echo "cat public/_redirects:" &&\
 cat public/_redirects\
 """
 
-[[plugins]]
-package = "netlify-plugin-checklinks"
+# [[plugins]]
+# package = "netlify-plugin-checklinks"
 
-[plugins.inputs]
-entryPoints = [
-  "**/index.html"
-]
-recursive = true
-pretty = true
-skipPatterns = [
-  "404.html"
-]
-todoPatterns = []
-checkExternal = false
-followSourceMaps = false
+# [plugins.inputs]
+# entryPoints = [
+#   "**/index.html"
+# ]
+# recursive = true
+# pretty = true
+# skipPatterns = [
+#   "404.html"
+# ]
+# todoPatterns = []
+# checkExternal = false
+# followSourceMaps = false
 
 [[headers]]
 for = "/_/font/*"
