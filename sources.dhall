@@ -89,6 +89,40 @@ let sources
           }
         , alternatives = [] : List Antora.ComponentVersionLanguage
         }
+      , { main =
+          { language = Antora.Language.en
+          , source =
+            { repository =
+              { prefix = "https://github.com/decidim/"
+              , name = "docs-features"
+              }
+            , branch = Antora.Branch.branch "revamp2020"
+            , start_path = "en"
+            }
+          }
+        , alternatives =
+          [ { language = Antora.Language.ca
+            , source =
+              { repository =
+                { prefix = "https://github.com/decidim/"
+                , name = "docs-features"
+                }
+              , branch = Antora.Branch.branch "revamp2020"
+              , start_path = "ca"
+              }
+            }
+          , { language = Antora.Language.es
+            , source =
+              { repository =
+                { prefix = "https://github.com/decidim/"
+                , name = "docs-features"
+                }
+              , branch = Antora.Branch.branch "revamp2020"
+              , start_path = "es"
+              }
+            }
+          ]
+        }
       ]
 
 in sources
