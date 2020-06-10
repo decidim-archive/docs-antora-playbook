@@ -62,15 +62,56 @@ let ui =
         , supplemental_files = Some "./supplemental_ui"
         }
 
+let copyright-ownership =
+      λ(lang : Antora.Language) →
+        merge
+          { ca =
+              "Ajuntament de Barcelona, Associació de software lliure Decidim i persones autores del text"
+          , en =
+              "Barcelona City Council, Decidim Free Software Association and the authors of the text"
+          , es =
+              "Ayuntamiento de Barcelona, Asociación de software libre Decidim y personas autoras del texto"
+          }
+          lang
+
+let license =
+      λ(lang : Antora.Language) →
+        merge
+          { ca =
+              "Creative Commons Reconeixement-CompartirIgual Internacional 4.0 (CC-BY-SA-4.0)"
+          , en =
+              "Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA-4.0)"
+          , es =
+              "Creative Commons Reconocimiento-CompartirIgual Internacional 4.0 (CC-BY-SA-4.0)"
+          }
+          lang
+
+let license-alternative =
+      λ(lang : Antora.Language) →
+        merge
+          { ca = "Llicència de Documentació Lliure de GNU (GFDL-1.3-or-later)"
+          , en = "GNU Free Documentation (GFDL-1.3-or-later)"
+          , es = "Licencia de Documentación Libre de GNU (GFDL-1.3-or-later)"
+          }
+          lang
+
 let asciidoc =
       λ(lang : Antora.Language) →
         Some
           { attributes = Some
             [ { mapKey = "idseparator", mapValue = "-" }
-            , { mapKey = "xrefstyle", mapValue = "short" }
-            , { mapKey = "idprefix", mapValue = "" }
+            , { mapKey = "xrefstyle", mapValue = "short@" }
+            , { mapKey = "idprefix", mapValue = "@" }
+            , { mapKey = "sectanchors", mapValue = "" }
             , { mapKey = "page-playbook-lang"
               , mapValue = "${Antora.Language/show lang}"
+              }
+            , { mapKey = "page-copyright-ownership"
+              , mapValue = "${copyright-ownership lang}@"
+              }
+            , { mapKey = "page-license", mapValue = "${license lang}@" }
+            , { mapKey = "page-license-alternative"
+              , mapValue = "${license-alternative lang}@"
               }
             ]
           , extensions = None (List Text)
