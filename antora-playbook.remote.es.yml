@@ -16,10 +16,6 @@ content:
       url: https://github.com/decidim/docs-base
     - branches:
         - master
-      start_path: ''
-      url: https://github.com/decidim/docs-label-translations
-    - branches:
-        - master
       start_path: es
       url: https://github.com/decidim/docs-publications
     - branches:
