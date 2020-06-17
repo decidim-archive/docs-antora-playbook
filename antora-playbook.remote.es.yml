@@ -38,6 +38,14 @@ content:
         - revamp2020.NT
       start_path: es
       url: https://github.com/decidim/docs-features
+    - branches:
+        - master
+      start_path: es
+      url: https://github.com/decidim/docs-social-contract
+    - branches:
+        - master.NT
+      start_path: es
+      url: https://github.com/decidim/docs-social-contract
 output:
   destinations: []
   dir: build/site/es

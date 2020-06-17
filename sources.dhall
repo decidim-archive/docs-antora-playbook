@@ -112,6 +112,40 @@ let sources
             }
           ]
         }
+      , { main =
+          { language = Antora.Language.en
+          , source =
+            { repository =
+              { prefix = "https://github.com/decidim/"
+              , name = "docs-social-contract"
+              }
+            , branch = Antora.Branch.master
+            , start_path = "en"
+            }
+          }
+        , alternatives =
+          [ { language = Antora.Language.ca
+            , source =
+              { repository =
+                { prefix = "https://github.com/decidim/"
+                , name = "docs-social-contract"
+                }
+              , branch = Antora.Branch.master
+              , start_path = "ca"
+              }
+            }
+          , { language = Antora.Language.es
+            , source =
+              { repository =
+                { prefix = "https://github.com/decidim/"
+                , name = "docs-social-contract"
+                }
+              , branch = Antora.Branch.master
+              , start_path = "es"
+              }
+            }
+          ]
+        }
       ]
 
 in sources
