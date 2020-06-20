@@ -31,7 +31,7 @@ content:
       start_path: en
       url: https://github.com/decidim/docs-features
     - branches:
-        - master
+        - revamp2020
       start_path: en
       url: https://github.com/decidim/docs-social-contract
 output:
