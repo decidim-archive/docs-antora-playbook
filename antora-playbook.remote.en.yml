@@ -15,7 +15,7 @@ content:
       start_path: en
       url: https://github.com/decidim/docs-base
     - branches:
-        - master
+        - revamp2020
       start_path: en
       url: https://github.com/decidim/docs-publications
     - branches:

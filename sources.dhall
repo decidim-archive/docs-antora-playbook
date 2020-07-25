@@ -20,7 +20,7 @@ let sources
               { prefix = "https://github.com/decidim/"
               , name = "docs-publications"
               }
-            , branch = Antora.Branch.master
+            , branch = Antora.Branch.branch "revamp2020"
             , start_path = "en"
             }
           }
@@ -31,7 +31,7 @@ let sources
                 { prefix = "https://github.com/decidim/"
                 , name = "docs-publications"
                 }
-              , branch = Antora.Branch.master
+              , branch = Antora.Branch.branch "revamp2020"
               , start_path = "ca"
               }
             }
@@ -41,7 +41,7 @@ let sources
                 { prefix = "https://github.com/decidim/"
                 , name = "docs-publications"
                 }
-              , branch = Antora.Branch.master
+              , branch = Antora.Branch.branch "revamp2020"
               , start_path = "es"
               }
             }
